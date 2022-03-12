@@ -1,5 +1,8 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, Response
+from callibration import Detector
 
+D = Detector
+D.run(D)
 #Name badalna hai kya?
 app = Flask(__name__)
 
