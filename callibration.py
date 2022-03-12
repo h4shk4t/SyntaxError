@@ -94,8 +94,8 @@ while True:
             y16=yList[16]
             x20=xList[20]
             y20=yList[20]
-            #index finger
-            '''     print(math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))
+            #index inger
+            print(math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))
             print("Index Finger is: ")
             if math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0)>(round(ind/palm,1)-0.1):
                 print("Raised")
@@ -105,7 +105,7 @@ while True:
                 iN=1
             else:
                 print("Down")
-                iN=0'''
+                iN=0
             #middle finger
             print(math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))
             print("Middle Finger is: ")
@@ -121,7 +121,7 @@ while True:
             #ring finger
             print(math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))
             print("Ring Finger is: ")
-            if math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0)>(round(ring/palm,1)-0.1):
+            if math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0)>(round(ring/palm,1)-0.02):
                 print("Raised")
                 rN=2
             elif (math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(ring/palm,1))/4):
@@ -133,7 +133,7 @@ while True:
             #pinky finger
             print(math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))
             print("Pinky Finger is: ")
-            if math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0)>(round(pink/palm,1)-0.05):
+            if math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0)>(round(pink/palm,1)-0.02):
                 print("Raised")
                 pN=2
             elif (math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(pink/palm,1))/4):
