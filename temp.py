@@ -1,14 +1,13 @@
+
 import cv2
 import time
 import mediapipe as mp
 import math
-#Hi vansh idhar merko 0 rakhna padega apna webcam use karne ke liye :) Please change it to 1 to use your mobile
-cap=cv2.VideoCapture(0)
-print("Keep your left hand out upright")
+cap=cv2.VideoCapture(1)
+print("Keep your hands out upright and move them")
 mpHands=mp.solutions.hands
 hands=mpHands.Hands(False)
 mpDraw=mp.solutions.drawing_utils
-var=0
 pTime=0
 cTime=0
 temp=40
@@ -87,6 +86,7 @@ while temp>=0:
     success,img=cap.read()
     imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     results=hands.process(imgRGB)
+    print(results.multi_hand_landmarks)
     cv2.imshow("Image",img)
     cv2.waitKey(1)
     if results.multi_hand_landmarks:
@@ -151,104 +151,81 @@ while True:
     rN = 0
     pN = 0
     if results.multi_hand_landmarks:
-        allHands=[]
-        for handtype,handlms in zip(results.multi_handedness,results.multi_hand_landmarks):
-            myHand={}
-            lmList=[]
-            xList=[]
-            yList=[]
-            for id,lm in enumerate(handlms.landmark):
+        xList=[]
+        yList=[]
+        for i in results.multi_hand_landmarks:
+            for id,lm in enumerate(i.landmark):
                 h, w, c = img.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                lmList.append([cx,cy])
                 xList.append(cx)
                 yList.append(cy)
-            myHand["lmList"]=lmList
-            if handtype.classification[0].label=="Right":
-                myHand["type"]="Left"
+            x0=xList[0]
+            y0=yList[0]
+            x5=xList[5]
+            y5=yList[5]
+            x8=xList[8]
+            y8=yList[8]
+            x12=xList[12]
+            y12=yList[12]
+            x16=xList[16]
+            y16=yList[16]
+            x20=xList[20]
+            y20=yList[20]
+            x4=xList[4]
+            if x4>x8:
+                print("Left")
             else:
-                myHand["type"]="Right"
-            allHands.append(myHand)
-            if len(allHands)>1:
-                
-                right=list(allHands[0]["lmList"])
-                left=list(allHands[1]["lmList"])
-                x0=left[0][0]
-                y0=left[0][1]
-                x5=left[5][0]
-                y5=left[5][1]
-                x8=left[8][0]
-                y8=left[8][0]
-                x12=left[12][0]
-                y12=left[12][1]
-                x16=left[16][0]
-                y16=left[16][1]
-                x20=left[20][0]
-                y20=left[20][1]
-                #index inger
-                if math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0)>(round(ind/palm,1)-0.1):
-                    iN=2
-                    print("Raised")
-                elif (math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(ind/palm,1))/4):
-                    iN=1
-                    print("Half")
-                else:
-                    iN=0
-                    print("Down")
-                #middle finger
-                if math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0)>(round(mid/palm,1)-0.1):
-                    mN=2
-                    print("Raised")
-
-                elif (math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(mid/palm,1))/4):
-                    mN=1
-                    print("Half")
-
-                else:
-                    mN=0
-                    print("Down")
-
-                #ring finger
-                print(math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))
-                print("Ring Finger is: ")
-                if math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0)>(round(ring/palm,1)-0.02):
-                    print("Raised")
-                    rN=2
-                elif (math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))>(6*(round(ring/palm,1))/7):
-                    print("Half")
-                    rN=1
-                else:
-                    print("Down")
-                    rN=0
-                #pinky finger
-                print(math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))
-                print("Pinky Finger is: ")
-                if math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0)>(round(pink/palm,1)-0.02):
-                    print("Raised")
-                    pN=2
-                elif (math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))>(6*(round(pink/palm,1))/7):
-                    print("Half")
-                    pN=1
-                else:
-                    print("Down")
-                    pN=0
-                print(chord(chords(),iN,mN,rN,pN))
-                if var==0:
-                    var=1
-                    x0=right[8][0]
-                    y0=right[8][1]
-                elif var==1:
-                    var=0
-                    x1=right[8][0]
-                    y1=right[8][1]
-                    if y1>y0+20:
-                        print("Down")
-                        time.sleep(0.5)
-                    elif y0>y1+20:
-                        print("UP")
-                        time.sleep(0.5)
+                print("Right")
+            #index inger
+            ''' print(math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))
+            print("Index Finger is: ")
+            if math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0)>(round(ind/palm,1)-0.1):
+                print("Raised")
+                iN=2
+            elif (math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(ind/palm,1))/4):
+                print("Half")
+                iN=1
             else:
-                print("Show both hands plox")
+                print("Down")
+                iN=0
+            #middle finger
+            print(math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))
+            print("Middle Finger is: ")
+            if math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0)>(round(mid/palm,1)-0.1):
+                print("Raised")
+                mN=2
+            elif (math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(mid/palm,1))/4):
+                print("Half")
+                mN=1
+            else:
+                print("Down")
+                mN=0
+            #ring finger
+            print(math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))
+            print("Ring Finger is: ")
+            if math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0)>(round(ring/palm,1)-0.02):
+                print("Raised")
+                rN=2
+            elif (math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(ring/palm,1))/4):
+                print("Half")
+                rN=1
+            else:
+                print("Down")
+                rN=0
+            #pinky finger
+            print(math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))
+            print("Pinky Finger is: ")
+            if math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0)>(round(pink/palm,1)-0.02):
+                print("Raised")
+                pN=2
+            elif (math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(pink/palm,1))/4):
+                print("Half")
+                pN=1
+            else:
+                print("Down")
+                pN=0
+            print(chord(chords(),iN,mN,rN,pN))'''
+        mpDraw.draw_landmarks(img,i,mpHands.HAND_CONNECTIONS)
     cTime=time.time()
     fps=1/(cTime-pTime)
     pTime=cTime
