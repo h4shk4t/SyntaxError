@@ -2,7 +2,6 @@ import cv2
 import time
 import mediapipe as mp
 import math
-
 #Hi vansh idhar merko 0 rakhna padega apna webcam use karne ke liye :) Please change it to 1 to use your mobile
 cap=cv2.VideoCapture(0)
 print("Keep your left hand out upright")
@@ -171,7 +170,6 @@ while True:
                 myHand["type"]="Right"
             allHands.append(myHand)
             if len(allHands)>1:
-                
                 right=list(allHands[0]["lmList"])
                 left=list(allHands[1]["lmList"])
                 x0=left[0][0]
@@ -189,52 +187,50 @@ while True:
                 #index inger
                 if math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0)>(round(ind/palm,1)-0.1):
                     iN=2
-                    print("Raised")
+                    #print("Raised")
                 elif (math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(ind/palm,1))/4):
                     iN=1
-                    print("Half")
+                    #print("Half")
                 else:
                     iN=0
-                    print("Down")
+                    #print("Down")
                 #middle finger
                 if math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0)>(round(mid/palm,1)-0.1):
                     mN=2
-                    print("Raised")
+                    #print("Raised")
 
                 elif (math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(mid/palm,1))/4):
                     mN=1
-                    print("Half")
+                    #print("Half")
 
                 else:
                     mN=0
-                    print("Down")
+                    #print("Down")
 
                 #ring finger
-                print(math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))
-                print("Ring Finger is: ")
                 if math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0)>(round(ring/palm,1)-0.02):
-                    print("Raised")
+                    #print("Raised")
                     rN=2
                 elif (math.hypot(x16-x0,y16-y0)/math.hypot(x5-x0,y5-y0))>(6*(round(ring/palm,1))/7):
-                    print("Half")
+                    #print("Half")
                     rN=1
                 else:
-                    print("Down")
+                    #print("Down")
                     rN=0
                 #pinky finger
-                print(math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))
-                print("Pinky Finger is: ")
+                #print(math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))
+                #print("Pinky Finger is: ")
                 if math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0)>(round(pink/palm,1)-0.02):
-                    print("Raised")
+                    #print("Raised")
                     pN=2
                 elif (math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))>(6*(round(pink/palm,1))/7):
-                    print("Half")
+                    #print("Half")
                     pN=1
                 else:
-                    print("Down")
+                    #print("Down")
                     pN=0
                 print(chord(chords(),iN,mN,rN,pN))
-                if var==0:
+                if var==0: #up and down wala using right hand
                     var=1
                     x0=right[8][0]
                     y0=right[8][1]
