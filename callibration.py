@@ -2,7 +2,8 @@ import cv2
 import time
 import mediapipe as mp
 import math
-cap=cv2.VideoCapture(1)
+#Hi vansh idhar merko 0 rakhna padega apna webcam use karne ke liye :) Please change it to 1 to use your mobile
+cap=cv2.VideoCapture(0)
 print("Keep your hands out upright and move them")
 mpHands=mp.solutions.hands
 hands=mpHands.Hands(False)
@@ -10,6 +11,77 @@ mpDraw=mp.solutions.drawing_utils
 pTime=0
 cTime=0
 temp=40
+def chords(key="Am"):
+    C = ["C","Dm","Em","F","G","Am","Bdim"]
+    Cs = ["C#","D#m","Fm","F#","G#","A#m","Cdim"]
+    D = ["D","Em","F#m","G","A","Bm","C#dim"]
+    Ds = ["D#","Fm","Gm","G#","A#","Cm","Ddim"]
+    E = ["E","F#m","G#m","A","B","C#m","D#dim"]
+    F = ["F","Gm","Am","A#","C","Dm","Edim"]
+    Fs = ["F#","G#m","A#m","B","C#","D#m","Fdim"]
+    G = ["G","Am","Bm","C","D","Em","F#dim"]
+    Gs = ["G#","A#m","Cm","C#","D#","Fm","Gdim"]
+    A = ["A","Bm","C#m","D","E","F#m","G#dim"]
+    As = ["A#","Cm","Dm","D#","F","Gm","Adim"]
+    B = ["B","C#m","D#m","E","F#","G#m","A#dim"]
+    if key.lower() in ("c","am"):
+        return C
+    elif key.lower()in ("c#","a#m"):
+        return Cs
+    elif key.lower() in ("d","bm"):
+        return D
+    elif key.lower() in ("d#","cm"):
+        return Ds
+    elif key.lower() in ("e","c#m"):
+        return E
+    elif key.lower() in ("f","dm"):
+        return F
+    elif key.lower() in ("f#","d#m"):
+        return Fs
+    elif key.lower() in ("g","em"):
+        return G
+    elif key.lower() in ("g#","fm"):
+        return Gs
+    elif key.lower() in ("a","f#m"):
+        return A
+    elif key.lower() in ("a#","gm"):
+        return As
+    elif key.lower() in ("b","g#m"):
+        return B
+    
+def chord(scale,indR,midR,ringR,pinkR):
+    if (indR == 2 and midR == 2 and ringR ==2 and pinkR == 2):
+        return "Mute"
+    elif ("G" in scale and indR == 1 and midR == 2 and ringR == 0 and pinkR == 0):
+        return "G"
+    elif ("A" in scale and indR == 1 and midR == 1 and ringR == 0 and pinkR == 0):
+        return "A"
+    elif ("C" in scale and indR == 0 and midR == 0 and ringR == 2):
+        return "C"
+    elif ("E" in scale and midR==2 and ringR == 2 and indR==1):
+        return "E"
+    #D chord me vansh help kardiyooo Im not sure ki yeh sahi combination hai
+    elif ("D" in scale and indR == 0 and midR == 0 and ringR == 0 and pinkR == 0):
+        return "D"
+    elif ("Am" in scale and midR == 1 and ringR == 1 and indR == 0 and pinkR == 0):
+        return "Am"
+    elif ("Em" in scale and (((indR == 2 and midR == 2 and ring ==0) or (midR==2 and ringR == 2 and indR == 0))) and pinkR == 0):
+        return "Em"
+    elif ("Dm" in scale and indR == 0 and midR == 1 and ringR == 0 and pinkR == 0):
+        return "Dm"
+    elif ("F" in scale and indR == 2 and midR == 1 and ringR == 2 and pinkR == 2):
+        return "F"
+    #elif ("Fm" in scale and indR == 2 and ringR == 2 and pinkR == 2):
+    #    return "Fm"
+    else:
+        print("Bhai guitar bajana seekhle")
+        return ""
+
+def play(chord,strum):
+    if (chord == "G" and strum == "Up"):
+        #play the chord
+        pass
+
 while temp>=0:
     success,img=cap.read()
     imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
@@ -73,6 +145,10 @@ while True:
     success,img=cap.read()
     imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     results=hands.process(imgRGB)
+    iN = 0
+    mN = 0
+    rN = 0
+    pN = 0
     if results.multi_hand_landmarks:
         xList=[]
         yList=[]
@@ -142,6 +218,7 @@ while True:
             else:
                 print("Down")
                 pN=0
+            print(chord(chords(),iN,mN,rN,pN))
             mpDraw.draw_landmarks(img,i,mpHands.HAND_CONNECTIONS)
     cTime=time.time()
     fps=1/(cTime-pTime)
