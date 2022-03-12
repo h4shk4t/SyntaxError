@@ -1,0 +1,28 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html prefix="og: http://ogp.me/ns#" lang="en" style="height: 100%">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=5" />
+
+  <title>Final page</title>
+  <meta name="description" content="Final page Description">
+  <meta property="og:title" content="Final page">
+  <meta property="og:description" content="Final page Description">
+  <meta name="generator" content="Quest">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Reem+Kufi:400">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    
+      <script src="{{ url_for('static', filename='index.js') }}"></script>
+      
+    </head>
+    <body class="websiteBody">
+        {% block content %}{% endblock %}
+    </body>
+  </html>
+  
