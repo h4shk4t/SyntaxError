@@ -2,6 +2,7 @@ import cv2
 import time
 import mediapipe as mp
 import math
+
 #Hi vansh idhar merko 0 rakhna padega apna webcam use karne ke liye :) Please change it to 1 to use your mobile
 cap=cv2.VideoCapture(0)
 print("Keep your left hand out upright")
