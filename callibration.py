@@ -1,5 +1,3 @@
-from xml.dom.minidom import ReadOnlySequentialNamedNodeMap
-from flask import Flask, render_template, url_for, Response
 from playsound import playsound
 import cv2
 import time
@@ -155,7 +153,8 @@ def gen_run():
                         ring=math.hypot(x16-x0,y16-y0)
                         pink=math.hypot(x20-x0,y20-y0)
                         palm=math.hypot(x5-x0,y5-y0)
-                        print(palm/ind)
+                        #print(palm/ind)
+    print("It's now ready to use")
     while True:
         success,img=cap.read()
         imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
