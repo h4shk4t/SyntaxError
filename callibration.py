@@ -1,3 +1,4 @@
+from flask import Flask, render_template, url_for, Response
 from playsound import playsound
 import cv2
 import time
@@ -55,7 +56,6 @@ def chord(scale,indR,midR,ringR,pinkR):
         return "C"
     elif ("E" in scale and midR==2 and ringR == 2 and indR==1):
         return "E"
-    #D chord me vansh help kardiyooo Im not sure ki yeh sahi combination hai
     elif ("D" in scale and indR == 0 and midR == 0 and ringR == 0 and pinkR == 0):
         return "D"
     elif ("Am" in scale and midR == 1 and ringR == 1 and indR == 0 and pinkR == 0):
@@ -86,7 +86,7 @@ def play(chord,strum):
         print("Please find guitar sounds for us, we are excellent coders but bad at recording guitar")
 
 def gen_run():
-    cap=cv2.VideoCapture(0)
+    cap=cv2.VideoCapture(1)
     print("Keep your left hand out upright")
     mpHands=mp.solutions.hands
     hands=mpHands.Hands(False)
@@ -94,7 +94,7 @@ def gen_run():
     var=0
     pTime=0
     cTime=0
-    temp=40
+    temp=100
     while temp>=0:
         success,img=cap.read()
         imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
@@ -136,24 +136,23 @@ def gen_run():
                         ly8.append(yList[8])
                         ly0.append(yList[0])
                         ly5.append(yList[5])
-                        x8=(sum(lx8))/40
-                        x0=(sum(lx0))/40
-                        x5=(sum(lx5))/40
-                        x12=(sum(lx12))/40
-                        x16=(sum(lx16))/40
-                        x20=(sum(lx20))/40
-                        y8=(sum(ly8))/40
-                        y0=(sum(ly0))/40
-                        y5=(sum(ly5))/40
-                        y12=(sum(ly12))/40
-                        y16=(sum(ly16))/40
-                        y20=(sum(ly20))/40
+                        x8=(sum(lx8))/100
+                        x0=(sum(lx0))/100
+                        x5=(sum(lx5))/100
+                        x12=(sum(lx12))/100
+                        x16=(sum(lx16))/100
+                        x20=(sum(lx20))/100
+                        y8=(sum(ly8))/100
+                        y0=(sum(ly0))/100
+                        y5=(sum(ly5))/100
+                        y12=(sum(ly12))/100
+                        y16=(sum(ly16))/100
+                        y20=(sum(ly20))/100
                         ind=math.hypot(x8-x0,y8-y0)
                         mid=math.hypot(x12-x0,y12-y0)
                         ring=math.hypot(x16-x0,y16-y0)
                         pink=math.hypot(x20-x0,y20-y0)
                         palm=math.hypot(x5-x0,y5-y0)
-                        #print(palm/ind)
     print("It's now ready to use")
     while True:
         success,img=cap.read()
@@ -171,7 +170,7 @@ def gen_run():
                 xList=[]
                 yList=[]
                 for id,lm in enumerate(handlms.landmark):
-                    h, w, c = img.shape
+                    h, w,c = img.shape
                     cx, cy = int(lm.x * w), int(lm.y * h)
                     lmList.append([cx,cy])
                     xList.append(cx)
@@ -197,18 +196,18 @@ def gen_run():
                     y16=left[16][1]
                     x20=left[20][0]
                     y20=left[20][1]
-                    #index inger
-                    if math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0)>(round(ind/palm,1)-0.1):
+                    #index finger
+                    if math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0)>(round(ind/palm,1)):
                         iN=2
                         print("Raised")
-                    elif (math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))>(3*(round(ind/palm,1))/4):
+                    elif (math.hypot(x8-x0,y8-y0)/math.hypot(x5-x0,y5-y0))>(6*(round(ind/palm,1))/7):
                         iN=1
                         print("Half")
                     else:
                         iN=0
                         print("Down")
                     #middle finger
-                    if math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0)>(round(mid/palm,1)-0.1):
+                    if math.hypot(x12-x0,y12-y0)/math.hypot(x5-x0,y5-y0)>(round(mid/palm,1)-0.05):
                         mN=2
                         print("Raised")
 
@@ -231,8 +230,6 @@ def gen_run():
                         print("Down")
                         rN=0
                     #pinky finger
-                    #print(math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0))
-                    #print("Pinky Finger is: ")
                     if math.hypot(x20-x0,y20-y0)/math.hypot(x5-x0,y5-y0)>(round(pink/palm,1)-0.02):
                         print("Raised")
                         pN=2
@@ -250,16 +247,14 @@ def gen_run():
                         var=0
                         x1=right[8][0]
                         y1=right[8][1]
-                        if y1>y0+20:
+                        if y1>y0+10:
                             Final = play(chord(chords(),iN,mN,rN,pN),"Down")
                             print(Final)
                             print("Down")
-                            #time.sleep(0.5)
-                        elif y0>y1+20:
+                        elif y0>y1+10:
                             Final = play(chord(chords(),iN,mN,rN,pN),"Up")
                             print(Final)
                             print("UP")
-                            #time.sleep(0.5)
                 else:
                     print("Show both hands plox")
         cTime=time.time()
