@@ -87,6 +87,10 @@ def play(chord,strum):
 
 def gen_run():
     cap=cv2.VideoCapture(1)
+    success,img=cap.read()
+    if not success:
+        cap=cv2.VideoCapture(0)
+        
     print("Keep your left hand out upright")
     mpHands=mp.solutions.hands
     hands=mpHands.Hands(False)
